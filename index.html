@@ -23,6 +23,7 @@
             background-color: #faf6f1;
             color: #5c4d3c;
             min-height: 100vh;
+            padding-top: 10px;
         }
         
         /* Контейнер */
@@ -30,124 +31,51 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 15px;
+            position: relative;
         }
         
-       /* ===== ИСПРАВЛЕННЫЙ БЛОК ПЕРЕКЛЮЧАТЕЛЯ ТЕМ ===== */
-.style-switcher {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 8px 12px;
-    border-radius: 10px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-    border: 1px solid rgba(196, 164, 132, 0.3);
-    backdrop-filter: blur(5px);
-}
-
-.light-theme .style-switcher {
-    background: rgba(255, 250, 240, 0.95);
-    border-color: rgba(196, 164, 132, 0.3);
-}
-
-.dark-theme .style-switcher {
-    background: rgba(42, 42, 42, 0.95);
-    border-color: rgba(119, 119, 119, 0.3);
-}
-
-.style-label {
-    font-size: 13px;
-    font-weight: 600;
-    margin-right: 5px;
-    white-space: nowrap;
-}
-
-.light-theme .style-label {
-    color: #7d6852;
-}
-
-.dark-theme .style-label {
-    color: #b0b0b0;
-}
-
-.style-btn {
-    padding: 8px 16px;
-    border: 2px solid;
-    border-radius: 20px;
-    background: none;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 13px;
-    position: relative;
-    z-index: 1001;
-    min-width: 100px;
-    text-align: center;
-    user-select: none;
-    white-space: nowrap;
-}
-
-.style-btn.light {
-    color: #8b6b46;
-    border-color: #c4a484;
-}
-
-.style-btn.dark {
-    color: #a0a0a0;
-    border-color: #777;
-}
-
-.style-btn.active {
-    transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
-.style-btn.light.active {
-    background: #c4a484;
-    color: #fffaf0;
-    border-color: #c4a484;
-}
-
-.style-btn.dark.active {
-    background: #777;
-    color: #e0e0e0;
-    border-color: #777;
-}
-
-.style-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-}
-
-.style-btn:active {
-    transform: translateY(0);
-}
-
-/* Адаптивность для переключателя */
-@media (max-width: 768px) {
-    .style-switcher {
-        position: static;
-        justify-content: center;
-        margin: 0 auto 20px;
-        width: 90%;
-        max-width: 400px;
-        backdrop-filter: none;
-    }
-    
-    .style-btn {
-        min-width: 80px;
-        padding: 6px 12px;
-        font-size: 12px;
-    }
-    
-    .style-label {
-        font-size: 12px;
-    }
-}
+        /* Кнопка переключения темы - ОДНА КНОПКА */
+        .theme-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.3s;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Для светлой темы - солнышко */
+        body.light-theme .theme-toggle {
+            background: #c4a484;
+            color: #fffaf0;
+        }
+        
+        body.light-theme .theme-toggle:hover {
+            background: #b29474;
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 5px 20px rgba(139, 107, 70, 0.3);
+        }
+        
+        /* Для тёмной темы - луна */
+        body.dark-theme .theme-toggle {
+            background: #555;
+            color: #d0d0d0;
+        }
+        
+        body.dark-theme .theme-toggle:hover {
+            background: #666;
+            transform: scale(1.1) rotate(-15deg);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+        }
         
         /* Светлая тема (по умолчанию) */
         body.light-theme {
@@ -221,13 +149,10 @@
             background: #fffaf0;
         }
         
-        .light-theme .btn {
-            border: none;
-        }
-        
         .light-theme .btn-generate {
             background: linear-gradient(to right, #a98b6f, #c4a484);
             color: #fffaf0;
+            border: none;
         }
         
         .light-theme .btn-generate:hover {
@@ -237,6 +162,7 @@
         .light-theme .btn-copy {
             background: linear-gradient(to right, #9c8c7c, #b5a592);
             color: #fffaf0;
+            border: none;
         }
         
         .light-theme .btn-copy:hover {
@@ -355,6 +281,7 @@
         .dark-theme .btn-generate {
             background: linear-gradient(to right, #555, #777);
             color: #d0d0d0;
+            border: none;
         }
         
         .dark-theme .btn-generate:hover {
@@ -364,6 +291,7 @@
         .dark-theme .btn-copy {
             background: linear-gradient(to right, #666, #888);
             color: #d0d0d0;
+            border: none;
         }
         
         .dark-theme .btn-copy:hover {
@@ -413,6 +341,7 @@
             margin-bottom: 25px;
             padding-bottom: 15px;
             border-bottom: 2px solid;
+            padding-top: 10px;
         }
         
         /* Спойлер */
@@ -619,17 +548,18 @@
         /* Уведомления */
         .notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 80px;
+            right: 15px;
             padding: 15px 25px;
             border-radius: 6px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
+            z-index: 9999;
             opacity: 0;
             transform: translateX(100px);
             transition: all 0.3s ease;
             font-weight: 500;
             border: 1px solid;
+            max-width: 300px;
         }
         
         .notification.show {
@@ -675,6 +605,7 @@
             
             .main-title {
                 font-size: 21px;
+                margin-top: 20px;
             }
             
             .card-title {
@@ -684,28 +615,27 @@
             .notification {
                 left: 10px;
                 right: 10px;
-                top: 10px;
+                top: 70px;
+                max-width: none;
             }
             
-            .style-switcher {
-                justify-content: center;
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
             }
         }
     </style>
 </head>
 <body class="light-theme">
+    <!-- ОДНА кнопка переключения темы -->
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle" title="Сменить тему">
+        ☀️
+    </button>
+    
     <div class="container">
-        <!-- Переключатель стилей -->
-        <div class="style-switcher">
-            <span style="margin-right: 10px; font-size: 14px;">Тема:</span>
-            <button class="style-btn light active" onclick="switchTheme('light')">
-                ☀️ Светлая
-            </button>
-            <button class="style-btn dark" onclick="switchTheme('dark')">
-                🌙 Тёмная
-            </button>
-        </div>
-        
         <h1 class="main-title">Генератор форумных поздравлений</h1>
         
         <!-- Спойлер с инструкцией (свёрнут по умолчанию) -->
@@ -839,34 +769,45 @@
     <div id="notification" class="notification"></div>
 
     <script>
-        // Управление темой
-        function switchTheme(theme) {
-            document.body.className = theme + '-theme';
+        // Управление темой - ОДНА КНОПКА
+        function toggleTheme() {
+            const currentTheme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             
-            // Обновляем активные кнопки
-            document.querySelectorAll('.style-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`.style-btn.${theme}`).classList.add('active');
+            // Меняем тему
+            document.body.classList.remove(currentTheme + '-theme');
+            document.body.classList.add(newTheme + '-theme');
+            
+            // Меняем иконку на кнопке
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.innerHTML = newTheme === 'light' ? '☀️' : '🌙';
+            themeToggle.title = newTheme === 'light' ? 'Переключить на тёмную тему' : 'Переключить на светлую тему';
             
             // Сохраняем выбор в localStorage
             try {
-                localStorage.setItem('preferredTheme', theme);
+                localStorage.setItem('preferredTheme', newTheme);
             } catch(e) {
-                console.log('Не удалось сохранить тему в localStorage');
+                console.log('Не удалось сохранить тему');
             }
             
-            showNotification(`Переключено на ${theme === 'light' ? 'светлую' : 'тёмную'} тему`);
+            // Показываем уведомление
+            showNotification(newTheme === 'light' ? 'Светлая тема' : 'Тёмная тема');
         }
         
         // Загрузка сохранённой темы
         function loadTheme() {
             try {
                 const savedTheme = localStorage.getItem('preferredTheme') || 'light';
-                switchTheme(savedTheme);
+                document.body.classList.remove('light-theme', 'dark-theme');
+                document.body.classList.add(savedTheme + '-theme');
+                
+                // Устанавливаем правильную иконку
+                const themeToggle = document.getElementById('themeToggle');
+                themeToggle.innerHTML = savedTheme === 'light' ? '☀️' : '🌙';
+                themeToggle.title = savedTheme === 'light' ? 'Переключить на тёмную тему' : 'Переключить на светлую тему';
             } catch(e) {
-                console.log('Не удалось загрузить тему из localStorage');
-                switchTheme('light');
+                console.log('Не удалось загрузить тему');
+                document.body.classList.add('light-theme');
             }
         }
         
@@ -917,10 +858,10 @@
                 if (type !== 'success') {
                     notification.classList.remove(type);
                 }
-            }, 3000);
+            }, 2000);
         }
         
-        // Форма 1: Квадратные/вертикальные картинки (ограничение по высоте)
+        // Форма 1: Квадратные/вертикальные картинки
         function generateCard1() {
             const sender = document.getElementById('sender1').value.trim();
             const receiver = document.getElementById('receiver1').value.trim();
@@ -928,7 +869,6 @@
             const text1 = document.getElementById('text1-1').value.trim();
             const text2 = document.getElementById('text1-2').value.trim();
             
-            // Проверка обязательных полей
             if (!sender) {
                 showNotification('Заполните поле "От кого"', 'error');
                 document.getElementById('sender1').focus();
@@ -940,7 +880,7 @@
                 return;
             }
             if (!text1) {
-                showNotification('Заполните первый абзац поздравления', 'error');
+                showNotification('Заполните первый абзац', 'error');
                 document.getElementById('text1-1').focus();
                 return;
             }
@@ -950,35 +890,27 @@
                 return;
             }
             
-            // Генерация BB-кода для форума
             let result = `[dm1][table layout=fixed width=100%][tr][td class=][font=BergaBold][size=22][color=#af115a]От кого:[/color][/size][/font] ${sender}\n`;
             result += `[font=BergaBold][size=22][color=#af115a]Кому:[/color][/size][/font] @${receiver}\n\n`;
-            
-            // Пустые теги для форматирования
             result += `[b][/b]\n`;
             result += `[b][/b]\n`;
             result += `[b][/b]\n`;
-            
-            // Первый абзац
             result += `[align=center][font=Bluu][size=14]${text1}[/size][/font][/align]\n\n`;
             
-            // Второй абзац (если есть)
             if (text2) {
                 result += `[align=center][font=Bluu][size=14]${text2}[/size][/font][/align]\n`;
             }
             
-            // Правая колонка с картинкой (ограничение по высоте 500px)
             result += `[/td][td width=308px class=]\n`;
             result += `[align=center][img height=500]${image}[/img][/align]\n`;
             result += `[/td][/tr][/table][/dm1]\n`;
             result += `[hr]`;
             
-            // Вставка результата
             document.getElementById('result1').value = result;
             showNotification('Поздравление сгенерировано!');
         }
         
-        // Форма 2: Широкие картинки (ограничение по ширине)
+        // Форма 2: Широкие картинки
         function generateCard2() {
             const sender = document.getElementById('sender2').value.trim();
             const receiver = document.getElementById('receiver2').value.trim();
@@ -986,7 +918,6 @@
             const text1 = document.getElementById('text2-1').value.trim();
             const text2 = document.getElementById('text2-2').value.trim();
             
-            // Проверка обязательных полей
             if (!sender) {
                 showNotification('Заполните поле "От кого"', 'error');
                 document.getElementById('sender2').focus();
@@ -998,7 +929,7 @@
                 return;
             }
             if (!text1) {
-                showNotification('Заполните первый абзац поздравления', 'error');
+                showNotification('Заполните первый абзац', 'error');
                 document.getElementById('text2-1').focus();
                 return;
             }
@@ -1008,25 +939,19 @@
                 return;
             }
             
-            // Генерация BB-кода для форума
             let result = `[dm1][font=BergaBold][size=22][color=#af115a]От кого:[/color][/size][/font] ${sender}\n`;
             result += `[font=BergaBold][size=22][color=#af115a]Кому:[/color][/size][/font] @${receiver}\n\n`;
-            
-            // Первый абзац
             result += `[align=center][font=Bluu][size=14]${text1}[/size][/font][/align]\n\n`;
             
-            // Второй абзац (если есть)
             if (text2) {
                 result += `[align=center][font=Bluu][size=14]${text2}[/size][/font][/align]\n\n`;
             }
             
-            // Пустой тег и картинка (ограничение по ширине 800px)
             result += `[b][/b]\n`;
             result += `[align=center][img width=800]${image}[/img][/align]`;
             result += `[/dm1]\n`;
             result += `[hr]`;
             
-            // Вставка результата
             document.getElementById('result2').value = result;
             showNotification('Поздравление сгенерировано!');
         }
@@ -1047,7 +972,7 @@
             try {
                 const successful = document.execCommand('copy');
                 if (successful) {
-                    showNotification('Текст скопирован в буфер обмена!');
+                    showNotification('Текст скопирован!');
                 } else {
                     showNotification('Не удалось скопировать. Скопируйте вручную (Ctrl+C).', 'warning');
                 }
@@ -1085,29 +1010,22 @@
             // Загружаем состояние спойлера
             loadSpoilerState();
             
-            // Добавляем обработчики для демо-данных (опционально)
-            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                setTimeout(() => {
-                    // Демо-данные только для локального тестирования
-                    if (!localStorage.getItem('demoLoaded')) {
-                        document.getElementById('sender1').value = 'Администрация';
-                        document.getElementById('receiver1').value = 'Участник';
-                        document.getElementById('image1').value = 'https://i.imgur.com/example1.jpg';
-                        document.getElementById('text1-1').value = 'Поздравляем с праздником! Желаем счастья, здоровья и успехов.';
-                        document.getElementById('text1-2').value = 'Пусть каждый день будет наполнен радостью и вдохновением!';
-                        
-                        document.getElementById('sender2').value = 'Модератор';
-                        document.getElementById('receiver2').value = 'АктивныйПользователь';
-                        document.getElementById('image2').value = 'https://i.imgur.com/example2.jpg';
-                        document.getElementById('text2-1').value = 'Сердечно поздравляем! Ваш вклад в развитие форума очень ценен.';
-                        document.getElementById('text2-2').value = 'Желаем творческих успехов и новых достижений!';
-                        
-                        localStorage.setItem('demoLoaded', 'true');
-                    }
-                }, 500);
-            }
+            // Улучшаем кликабельность кнопки темы
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.style.cursor = 'pointer';
+            themeToggle.style.pointerEvents = 'auto';
+            
+            // Добавляем обработчик для тач-устройств
+            themeToggle.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                this.style.transform = 'scale(0.95)';
+            });
+            
+            themeToggle.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                this.style.transform = '';
+            });
         });
     </script>
 </body>
 </html>
-
