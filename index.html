@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор поздравлений</title>
+    <style>
+        /* Сброс стилей для изоляции от дизайна форума */
+        .card-generator * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .card-generator {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .card-generator h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #af115a;
+            font-size: 1.8em;
+        }
+        
+        .form-container {
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+            border: 1px solid #ccc;
+        }
+        
+        .form-title {
+            color: #af115a;
+            margin-bottom: 18px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .card-generator label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .card-generator input[type="text"],
+        .card-generator textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #fff;
+        }
+        
+        .card-generator textarea {
+            min-height: 90px;
+            resize: vertical;
+            font-family: monospace;
+        }
+        
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .card-generator button {
+            padding: 10px 18px;
+            background-color: #af115a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background-color 0.2s;
+            font-weight: bold;
+        }
+        
+        .card-generator button:hover {
+            background-color: #8f0e4a;
+        }
+        
+        .card-generator button.copy-btn {
+            background-color: #2c3e50;
+        }
+        
+        .card-generator button.copy-btn:hover {
+            background-color: #1a252f;
+        }
+        
+        .card-generator button.clear-btn {
+            background-color: #7f8c8d;
+        }
+        
+        .card-generator button.clear-btn:hover {
+            background-color: #636e70;
+        }
+        
+        .result-container {
+            margin-top: 20px;
+        }
+        
+        .result-title {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        
+        .card-generator #result1, 
+        .card-generator #result2 {
+            width: 100%;
+            min-height: 280px;
+            padding: 15px;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-y: auto;
+            line-height: 1.4;
+            color: #333;
+        }
+        
+        .info-box {
+            background-color: #e8f4fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
+            font-size: 14px;
+        }
+        
+        .instructions {
+            margin-top: 25px;
+            padding: 18px;
+            background-color: #fff;
+            border-radius: 6px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+            border: 1px solid #ccc;
+        }
+        
+        .instructions h3 {
+            color: #af115a;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+        
+        .instructions ul {
+            padding-left: 22px;
+            margin-bottom: 15px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .preview-box {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            border: 1px dashed #999;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .card-generator input:focus,
+        .card-generator textarea:focus {
+            outline: 2px solid #af115a;
+            outline-offset: -1px;
+        }
+        
+        @media (max-width: 768px) {
+            .card-generator {
+                padding: 10px;
+            }
+            
+            .form-container {
+                padding: 15px;
+            }
+            
+            .form-buttons {
+                flex-direction: column;
+            }
+            
+            .card-generator button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card-generator">
+        <h1>Генератор поздравлений</h1>
+        
+        <div class="info-box">
+            <strong>Инструкция:</strong> Заполните поля в одной из форм ниже, нажмите "Сгенерировать", затем "Копировать результат" и вставьте в форму для отправки на форуме.
+        </div>
+        
+        <!-- Форма 1: Квадратная/Вертикальная картинка -->
+        <div class="form-container">
+            <h2 class="form-title">Форма для квадратной/вертикальной картинки</h2>
+            
+            <div class="form-group">
+                <label for="sender1">От кого:</label>
+                <input type="text" id="sender1" placeholder="Введите ваш ник">
+            </div>
+            
+            <div class="form-group">
+                <label for="receiver1">Кому (только ник, без @):</label>
+                <input type="text" id="receiver1" placeholder="например: user123">
+            </div>
+            
+            <div class="form-group">
+                <label for="image1">Ссылка на картинку (прямая):</label>
+                <input type="text" id="image1" placeholder="https://example.com/image.jpg">
+            </div>
+            
+            <div class="form-group">
+                <label for="text1-1">Первый абзац поздравления:</label>
+                <textarea id="text1-1" placeholder="Введите текст первого абзаца..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="text1-2">Второй абзац поздравления (необязательно):</label>
+                <textarea id="text1-2" placeholder="Введите текст второго абзаца (можно оставить пустым)..."></textarea>
+            </div>
+            
+            <div class="form-buttons">
+                <button onclick="generateCard1()">Сгенерировать</button>
+                <button class="copy-btn" onclick="copyToClipboard('result1')">Копировать результат</button>
+                <button class="clear-btn" onclick="clearForm1()">Очистить форму</button>
+            </div>
+            
+            <div class="result-container">
+                <h3 class="result-title">Результат:</h3>
+                <div id="result1" contenteditable="true"></div>
+            </div>
+        </div>
+        
+        <!-- Форма 2: Широкая картинка -->
+        <div class="form-container">
+            <h2 class="form-title">Форма для широкой картинки</h2>
+            
+            <div class="form-group">
+                <label for="sender2">От кого:</label>
+                <input type="text" id="sender2" placeholder="Введите ваш ник">
+            </div>
+            
+            <div class="form-group">
+                <label for="receiver2">Кому (только ник, без @):</label>
+                <input type="text" id="receiver2" placeholder="например: user123">
+            </div>
+            
+            <div class="form-group">
+                <label for="image2">Ссылка на картинку (прямая):</label>
+                <input type="text" id="image2" placeholder="https://example.com/image.jpg">
+            </div>
+            
+            <div class="form-group">
+                <label for="text2-1">Первый абзац поздравления:</label>
+                <textarea id="text2-1" placeholder="Введите текст первого абзаца..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="text2-2">Второй абзац поздравления (необязательно):</label>
+                <textarea id="text2-2" placeholder="Введите текст второго абзаца (можно оставить пустым)..."></textarea>
+            </div>
+            
+            <div class="form-buttons">
+                <button onclick="generateCard2()">Сгенерировать</button>
+                <button class="copy-btn" onclick="copyToClipboard('result2')">Копировать результат</button>
+                <button class="clear-btn" onclick="clearForm2()">Очистить форму</button>
+            </div>
+            
+            <div class="result-container">
+                <h3 class="result-title">Результат:</h3>
+                <div id="result2" contenteditable="true"></div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>Как использовать:</h3>
+            <ul>
+                <li><strong>Для квадратных/вертикальных картинок</strong> используйте первую форму (автоматически ограничивается шириной 500px)</li>
+                <li><strong>Для широких картинок</strong> используйте вторую форму (автоматически ограничивается шириной 800px)</li>
+                <li>В поле "Кому" вводите только ник пользователя, без символа @</li>
+                <li>Используйте прямые ссылки на изображения (заканчивающиеся на .jpg, .png, .gif)</li>
+                <li>После копирования вставьте код в форму для отправки на форуме</li>
+            </ul>
+            
+            <div class="preview-box">
+                <strong>Пример того, как будет выглядеть результат:</strong><br><br>
+                [dm1][table layout=fixed width=100%][tr][td class=][font=BergaBold][size=22][color=#af115a]От кого:[/color][/size][/font] ВашНик<br>
+                [font=BergaBold][size=22][color=#af115a]Кому:[/color][/size][/font] @Получатель<br><br>
+                [align=center][font=Bluu][size=14]Текст первого абзаца...[/size][/font][/align]<br><br>
+                [align=center][font=Bluu][size=14]Текст второго абзаца...[/size][/font][/align]<br>
+                [/td][td width=308px class=]<br>
+                [align=center][img width=500]ссылка_на_картинку[/img][/align]<br>
+                [/td][/tr][/table][/dm1]<br>
+                [hr]
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Функция для первой формы (квадратная/вертикальная картинка)
+        function generateCard1() {
+            const sender = document.getElementById('sender1').value.trim();
+            const receiver = document.getElementById('receiver1').value.trim();
+            const image = document.getElementById('image1').value.trim();
+            const text1 = document.getElementById('text1-1').value.trim();
+            const text2 = document.getElementById('text1-2').value.trim();
+            
+            if (!sender || !receiver || !text1) {
+                alert('Пожалуйста, заполните обязательные поля: "От кого", "Кому" и "Первый абзац"');
+                return;
+            }
+            
+            let result = `[dm1][table layout=fixed width=100%][tr][td class=][font=BergaBold][size=22][color=#af115a]От кого:[/color][/size][/font] ${sender}\n`;
+            result += `[font=BergaBold][size=22][color=#af115a]Кому:[/color][/size][/font] @${receiver}\n\n`;
+            
+            // Добавляем пустые [b] теги
+            result += `[b][/b]\n`;
+            result += `[b][/b]\n`;
+            result += `[b][/b]\n`;
+            
+            // Первый абзац
+            result += `[align=center][font=Bluu][size=14]${text1}[/size][/font][/align]\n\n`;
+            
+            // Второй абзац (если есть)
+            if (text2) {
+                result += `[align=center][font=Bluu][size=14]${text2}[/size][/font][/align]\n`;
+            }
+            
+            result += `[/td][td width=308px class=]\n`;
+            
+            // Картинка с ограничением ширины для вертикальных
+            if (image) {
+                result += `[align=center][img width=500]${image}[/img][/align]\n`;
+            }
+            
+            result += `[/td][/tr][/table][/dm1]\n`;
+            result += `[hr]`;
+            
+            document.getElementById('result1').textContent = result;
+        }
+        
+        // Функция для второй формы (широкая картинка)
+        function generateCard2() {
+            const sender = document.getElementById('sender2').value.trim();
+            const receiver = document.getElementById('receiver2').value.trim();
+            const image = document.getElementById('image2').value.trim();
+            const text1 = document.getElementById('text2-1').value.trim();
+            const text2 = document.getElementById('text2-2').value.trim();
+            
+            if (!sender || !receiver || !text1) {
+                alert('Пожалуйста, заполните обязательные поля: "От кого", "Кому" и "Первый абзац"');
+                return;
+            }
+            
+            let result = `[dm1][font=BergaBold][size=22][color=#af115a]От кого:[/color][/size][/font] ${sender}\n`;
+            result += `[font=BergaBold][size=22][color=#af115a]Кому:[/color][/size][/font] @${receiver}\n\n`;
+            
+            // Первый абзац
+            result += `[align=center][font=Bluu][size=14]${text1}[/size][/font][/align]\n\n`;
+            
+            // Второй абзац (если есть)
+            if (text2) {
+                result += `[align=center][font=Bluu][size=14]${text2}[/size][/font][/align]\n\n`;
+            }
+            
+            // Добавляем пустой [b] тег
+            result += `[b][/b]\n`;
+            
+            // Картинка с ограничением ширины для широких
+            if (image) {
+                result += `[align=center][img width=800]${image}[/img][/align]`;
+            }
+            
+            result += `[/dm1]\n`;
+            result += `[hr]`;
+            
+            document.getElementById('result2').textContent = result;
+        }
+        
+        // Функция копирования в буфер обмена
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            if (!text) {
+                alert('Сначала сгенерируйте текст!');
+                return;
+            }
+            
+            // Создаем временный textarea для копирования
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                alert('Текст скопирован в буфер обмена!');
+            } catch (err) {
+                console.error('Ошибка при копировании: ', err);
+                alert('Не удалось скопировать текст. Выделите и скопируйте вручную.');
+            }
+            
+            document.body.removeChild(textarea);
+        }
+        
+        // Функции очистки форм
+        function clearForm1() {
+            document.getElementById('sender1').value = '';
+            document.getElementById('receiver1').value = '';
+            document.getElementById('image1').value = '';
+            document.getElementById('text1-1').value = '';
+            document.getElementById('text1-2').value = '';
+            document.getElementById('result1').textContent = '';
+        }
+        
+        function clearForm2() {
+            document.getElementById('sender2').value = '';
+            document.getElementById('receiver2').value = '';
+            document.getElementById('image2').value = '';
+            document.getElementById('text2-1').value = '';
+            document.getElementById('text2-2').value = '';
+            document.getElementById('result2').textContent = '';
+        }
+        
+        // Автозаполнение для тестирования (только на localhost)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Автозаполнение только для локального тестирования
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                setTimeout(function() {
+                    document.getElementById('sender1').value = 'Администратор';
+                    document.getElementById('receiver1').value = 'HappyUser';
+                    document.getElementById('image1').value = 'https://img.freepik.com/free-vector/cute-valentine-s-invitation-with-lovely-cats_1361-996.jpg';
+                    document.getElementById('text1-1').value = 'Поздравляем с прекрасным праздником!\nЖелаем счастья, здоровья и удачи во всех начинаниях.';
+                    document.getElementById('text1-2').value = 'Пусть каждый день будет наполнен радостью,\nа рядом будут верные друзья и любимые люди!';
+                    
+                    document.getElementById('sender2').value = 'Модератор';
+                    document.getElementById('receiver2').value = 'BestMember';
+                    document.getElementById('image2').value = 'https://img.freepik.com/vecteurs-premium/carte-chat-saint-valentin_45130-701.jpg';
+                    document.getElementById('text2-1').value = 'Примите наши самые теплые поздравления!\nВы — неотъемлемая часть нашего сообщества.';
+                    document.getElementById('text2-2').value = 'Благодарим за активность и ценный вклад.\nЖелаем вдохновения и новых достижений!';
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>
