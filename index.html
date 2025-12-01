@@ -32,49 +32,122 @@
             padding: 15px;
         }
         
-        /* Стиль переключателя */
-        .style-switcher {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .style-btn {
-            padding: 8px 16px;
-            border: 2px solid;
-            border-radius: 20px;
-            background: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-        
-        .style-btn.light {
-            color: #8b6b46;
-            border-color: #c4a484;
-        }
-        
-        .style-btn.dark {
-            color: #a0a0a0;
-            border-color: #555;
-        }
-        
-        .style-btn.active {
-            transform: scale(1.05);
-        }
-        
-        .style-btn.light.active {
-            background: #c4a484;
-            color: #fffaf0;
-        }
-        
-        .style-btn.dark.active {
-            background: #555;
-            color: #e0e0e0;
-        }
+       /* ===== ИСПРАВЛЕННЫЙ БЛОК ПЕРЕКЛЮЧАТЕЛЯ ТЕМ ===== */
+.style-switcher {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 8px 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    border: 1px solid rgba(196, 164, 132, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.light-theme .style-switcher {
+    background: rgba(255, 250, 240, 0.95);
+    border-color: rgba(196, 164, 132, 0.3);
+}
+
+.dark-theme .style-switcher {
+    background: rgba(42, 42, 42, 0.95);
+    border-color: rgba(119, 119, 119, 0.3);
+}
+
+.style-label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 5px;
+    white-space: nowrap;
+}
+
+.light-theme .style-label {
+    color: #7d6852;
+}
+
+.dark-theme .style-label {
+    color: #b0b0b0;
+}
+
+.style-btn {
+    padding: 8px 16px;
+    border: 2px solid;
+    border-radius: 20px;
+    background: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 13px;
+    position: relative;
+    z-index: 1001;
+    min-width: 100px;
+    text-align: center;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.style-btn.light {
+    color: #8b6b46;
+    border-color: #c4a484;
+}
+
+.style-btn.dark {
+    color: #a0a0a0;
+    border-color: #777;
+}
+
+.style-btn.active {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.style-btn.light.active {
+    background: #c4a484;
+    color: #fffaf0;
+    border-color: #c4a484;
+}
+
+.style-btn.dark.active {
+    background: #777;
+    color: #e0e0e0;
+    border-color: #777;
+}
+
+.style-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.style-btn:active {
+    transform: translateY(0);
+}
+
+/* Адаптивность для переключателя */
+@media (max-width: 768px) {
+    .style-switcher {
+        position: static;
+        justify-content: center;
+        margin: 0 auto 20px;
+        width: 90%;
+        max-width: 400px;
+        backdrop-filter: none;
+    }
+    
+    .style-btn {
+        min-width: 80px;
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    
+    .style-label {
+        font-size: 12px;
+    }
+}
         
         /* Светлая тема (по умолчанию) */
         body.light-theme {
@@ -1037,3 +1110,4 @@
     </script>
 </body>
 </html>
+
