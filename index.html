@@ -14,16 +14,18 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.5s, color 0.5s;
             background-color: #faf6f1;
             color: #5c4d3c;
             min-height: 100vh;
             padding-top: 10px;
+            touch-action: manipulation;
         }
         
         /* Контейнер */
@@ -34,13 +36,13 @@
             position: relative;
         }
         
-        /* Кнопка переключения темы - ОДНА КНОПКА */
+        /* Кнопка переключения темы */
         .theme-toggle {
             position: fixed;
-            top: 15px;
-            right: 15px;
-            width: 50px;
-            height: 50px;
+            top: 20px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             border: none;
             cursor: pointer;
@@ -48,33 +50,39 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            transition: all 0.3s;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Для светлой темы - солнышко */
-        body.light-theme .theme-toggle {
+            font-size: 32px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             background: #c4a484;
             color: #fffaf0;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
         }
         
-        body.light-theme .theme-toggle:hover {
-            background: #b29474;
-            transform: scale(1.1) rotate(15deg);
-            box-shadow: 0 5px 20px rgba(139, 107, 70, 0.3);
+        .theme-toggle:active {
+            transform: scale(0.9);
         }
         
-        /* Для тёмной темы - луна */
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Для тёмной темы - стили кнопки */
         body.dark-theme .theme-toggle {
             background: #555;
             color: #d0d0d0;
         }
         
-        body.dark-theme .theme-toggle:hover {
-            background: #666;
-            transform: scale(1.1) rotate(-15deg);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+        /* Для мобильных */
+        @media (max-width: 768px) {
+            .theme-toggle {
+                width: 80px;
+                height: 80px;
+                font-size: 36px;
+                top: 15px;
+                right: 15px;
+            }
         }
         
         /* Светлая тема (по умолчанию) */
@@ -214,7 +222,6 @@
         .dark-theme .main-title {
             color: #c4a484;
             border-bottom-color: #444;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
         
         .dark-theme .spoiler {
@@ -349,7 +356,6 @@
             border-radius: 8px;
             margin-bottom: 25px;
             overflow: hidden;
-            transition: all 0.3s;
             border: 1px solid;
         }
         
@@ -364,7 +370,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background 0.3s;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .spoiler-btn::after {
@@ -414,12 +420,7 @@
             border-radius: 8px;
             padding: 25px;
             margin-bottom: 30px;
-            transition: transform 0.2s, box-shadow 0.3s;
             border: 1px solid;
-        }
-        
-        .form-card:hover {
-            transform: translateY(-3px);
         }
         
         .card-title {
@@ -463,7 +464,6 @@
             border: 1px solid;
             border-radius: 6px;
             font-size: 15px;
-            transition: border 0.3s, box-shadow 0.3s;
         }
         
         .form-textarea {
@@ -492,15 +492,11 @@
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            -webkit-tap-highlight-color: transparent;
+            border: none;
         }
         
         .btn-icon {
@@ -548,8 +544,8 @@
         /* Уведомления */
         .notification {
             position: fixed;
-            top: 80px;
-            right: 15px;
+            top: 100px;
+            right: 20px;
             padding: 15px 25px;
             border-radius: 6px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -615,32 +611,24 @@
             .notification {
                 left: 10px;
                 right: 10px;
-                top: 70px;
+                top: 90px;
                 max-width: none;
-            }
-            
-            .theme-toggle {
-                top: 10px;
-                right: 10px;
-                width: 45px;
-                height: 45px;
-                font-size: 20px;
             }
         }
     </style>
 </head>
 <body class="light-theme">
-    <!-- ОДНА кнопка переключения темы -->
-    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle" title="Сменить тему">
+    <!-- Кнопка переключения темы -->
+    <button class="theme-toggle" id="themeToggle">
         ☀️
     </button>
     
     <div class="container">
         <h1 class="main-title">Генератор форумных поздравлений</h1>
         
-        <!-- Спойлер с инструкцией (свёрнут по умолчанию) -->
+        <!-- Спойлер с инструкцией -->
         <div class="spoiler">
-            <button class="spoiler-btn" onclick="toggleSpoiler()">
+            <button class="spoiler-btn" id="spoilerBtn">
                 📋 Инструкция по использованию
             </button>
             <div class="spoiler-content" id="spoilerContent">
@@ -693,13 +681,13 @@
             </div>
             
             <div class="buttons-container">
-                <button class="btn btn-generate" onclick="generateCard1()">
+                <button class="btn btn-generate" id="generate1">
                     <span class="btn-icon">⚡</span> Сгенерировать
                 </button>
-                <button class="btn btn-copy" onclick="copyToClipboard('result1')">
+                <button class="btn btn-copy" id="copy1">
                     <span class="btn-icon">📋</span> Скопировать
                 </button>
-                <button class="btn btn-clear" onclick="clearForm1()">
+                <button class="btn btn-clear" id="clear1">
                     <span class="btn-icon">🗑️</span> Очистить
                 </button>
             </div>
@@ -745,13 +733,13 @@
             </div>
             
             <div class="buttons-container">
-                <button class="btn btn-generate" onclick="generateCard2()">
+                <button class="btn btn-generate" id="generate2">
                     <span class="btn-icon">⚡</span> Сгенерировать
                 </button>
-                <button class="btn btn-copy" onclick="copyToClipboard('result2')">
+                <button class="btn btn-copy" id="copy2">
                     <span class="btn-icon">📋</span> Скопировать
                 </button>
-                <button class="btn btn-clear" onclick="clearForm2()">
+                <button class="btn btn-clear" id="clear2">
                     <span class="btn-icon">🗑️</span> Очистить
                 </button>
             </div>
@@ -769,57 +757,53 @@
     <div id="notification" class="notification"></div>
 
     <script>
-        // Управление темой - ОДНА КНОПКА
+        // ===== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ =====
         function toggleTheme() {
             const currentTheme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             
-            // Меняем тему
+            // Плавно меняем тему
             document.body.classList.remove(currentTheme + '-theme');
             document.body.classList.add(newTheme + '-theme');
             
-            // Меняем иконку на кнопке
+            // Меняем иконку
             const themeToggle = document.getElementById('themeToggle');
             themeToggle.innerHTML = newTheme === 'light' ? '☀️' : '🌙';
-            themeToggle.title = newTheme === 'light' ? 'Переключить на тёмную тему' : 'Переключить на светлую тему';
             
-            // Сохраняем выбор в localStorage
+            // Сохраняем
             try {
                 localStorage.setItem('preferredTheme', newTheme);
             } catch(e) {
                 console.log('Не удалось сохранить тему');
             }
             
-            // Показываем уведомление
+            // Уведомление
             showNotification(newTheme === 'light' ? 'Светлая тема' : 'Тёмная тема');
         }
         
-        // Загрузка сохранённой темы
+        // ===== ЗАГРУЗКА ТЕМЫ =====
         function loadTheme() {
             try {
                 const savedTheme = localStorage.getItem('preferredTheme') || 'light';
                 document.body.classList.remove('light-theme', 'dark-theme');
                 document.body.classList.add(savedTheme + '-theme');
                 
-                // Устанавливаем правильную иконку
                 const themeToggle = document.getElementById('themeToggle');
                 themeToggle.innerHTML = savedTheme === 'light' ? '☀️' : '🌙';
-                themeToggle.title = savedTheme === 'light' ? 'Переключить на тёмную тему' : 'Переключить на светлую тему';
             } catch(e) {
                 console.log('Не удалось загрузить тему');
                 document.body.classList.add('light-theme');
             }
         }
         
-        // Управление спойлером
+        // ===== СПОЙЛЕР =====
         function toggleSpoiler() {
-            const btn = document.querySelector('.spoiler-btn');
+            const btn = document.getElementById('spoilerBtn');
             const content = document.getElementById('spoilerContent');
             
             btn.classList.toggle('active');
             content.classList.toggle('show');
             
-            // Сохраняем состояние спойлера
             try {
                 const isOpen = content.classList.contains('show');
                 localStorage.setItem('spoilerOpen', isOpen);
@@ -828,7 +812,6 @@
             }
         }
         
-        // Загрузка состояния спойлера
         function loadSpoilerState() {
             try {
                 const spoilerOpen = localStorage.getItem('spoilerOpen');
@@ -840,7 +823,7 @@
             }
         }
         
-        // Показ уведомлений
+        // ===== УВЕДОМЛЕНИЯ =====
         function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
             notification.textContent = message;
@@ -861,7 +844,7 @@
             }, 2000);
         }
         
-        // Форма 1: Квадратные/вертикальные картинки
+        // ===== ФОРМА 1 =====
         function generateCard1() {
             const sender = document.getElementById('sender1').value.trim();
             const receiver = document.getElementById('receiver1').value.trim();
@@ -910,7 +893,41 @@
             showNotification('Поздравление сгенерировано!');
         }
         
-        // Форма 2: Широкие картинки
+        function copyToClipboard1() {
+            const element = document.getElementById('result1');
+            const text = element.value;
+            
+            if (!text) {
+                showNotification('Сначала сгенерируйте текст!', 'warning');
+                return;
+            }
+            
+            element.select();
+            element.setSelectionRange(0, 99999);
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showNotification('Текст скопирован!');
+                } else {
+                    showNotification('Не удалось скопировать. Скопируйте вручную (Ctrl+C).', 'warning');
+                }
+            } catch (err) {
+                showNotification('Ошибка при копировании. Скопируйте текст вручную.', 'error');
+            }
+        }
+        
+        function clearForm1() {
+            document.getElementById('sender1').value = '';
+            document.getElementById('receiver1').value = '';
+            document.getElementById('image1').value = '';
+            document.getElementById('text1-1').value = '';
+            document.getElementById('text1-2').value = '';
+            document.getElementById('result1').value = '';
+            showNotification('Первая форма очищена');
+        }
+        
+        // ===== ФОРМА 2 =====
         function generateCard2() {
             const sender = document.getElementById('sender2').value.trim();
             const receiver = document.getElementById('receiver2').value.trim();
@@ -956,9 +973,8 @@
             showNotification('Поздравление сгенерировано!');
         }
         
-        // Копирование в буфер обмена
-        function copyToClipboard(elementId) {
-            const element = document.getElementById(elementId);
+        function copyToClipboard2() {
+            const element = document.getElementById('result2');
             const text = element.value;
             
             if (!text) {
@@ -981,17 +997,6 @@
             }
         }
         
-        // Очистка форм
-        function clearForm1() {
-            document.getElementById('sender1').value = '';
-            document.getElementById('receiver1').value = '';
-            document.getElementById('image1').value = '';
-            document.getElementById('text1-1').value = '';
-            document.getElementById('text1-2').value = '';
-            document.getElementById('result1').value = '';
-            showNotification('Первая форма очищена');
-        }
-        
         function clearForm2() {
             document.getElementById('sender2').value = '';
             document.getElementById('receiver2').value = '';
@@ -1002,28 +1007,47 @@
             showNotification('Вторая форма очищена');
         }
         
-        // Инициализация при загрузке
+        // ===== ИНИЦИАЛИЗАЦИЯ =====
         document.addEventListener('DOMContentLoaded', function() {
-            // Загружаем сохранённую тему
+            // Загружаем тему
             loadTheme();
             
-            // Загружаем состояние спойлера
+            // Загружаем спойлер
             loadSpoilerState();
             
-            // Улучшаем кликабельность кнопки темы
-            const themeToggle = document.getElementById('themeToggle');
-            themeToggle.style.cursor = 'pointer';
-            themeToggle.style.pointerEvents = 'auto';
-            
-            // Добавляем обработчик для тач-устройств
-            themeToggle.addEventListener('touchstart', function(e) {
+            // Назначаем обработчики
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            document.getElementById('themeToggle').addEventListener('touchstart', function(e) {
                 e.preventDefault();
-                this.style.transform = 'scale(0.95)';
+                this.style.transform = 'scale(0.9)';
             });
-            
-            themeToggle.addEventListener('touchend', function(e) {
+            document.getElementById('themeToggle').addEventListener('touchend', function(e) {
                 e.preventDefault();
                 this.style.transform = '';
+                toggleTheme();
+            });
+            
+            // Спойлер
+            document.getElementById('spoilerBtn').addEventListener('click', toggleSpoiler);
+            
+            // Форма 1
+            document.getElementById('generate1').addEventListener('click', generateCard1);
+            document.getElementById('copy1').addEventListener('click', copyToClipboard1);
+            document.getElementById('clear1').addEventListener('click', clearForm1);
+            
+            // Форма 2
+            document.getElementById('generate2').addEventListener('click', generateCard2);
+            document.getElementById('copy2').addEventListener('click', copyToClipboard2);
+            document.getElementById('clear2').addEventListener('click', clearForm2);
+            
+            // Touch улучшения для всех кнопок
+            document.querySelectorAll('.btn, .theme-toggle, .spoiler-btn').forEach(btn => {
+                btn.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.8';
+                });
+                btn.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
             });
         });
     </script>
